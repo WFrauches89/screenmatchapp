@@ -1,17 +1,36 @@
 package br.com.alura.screenmatch.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import jakarta.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Episodes {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer season;
     private String title;
     private Integer numberEpisode;
     private Double rating;
     private LocalDate release;
+
+    @ManyToOne
+    @JoinColumn(name = "serie_id")
+    private Series series;
+
 
     public Episodes(Integer numberSeason, EpisodeDatas episodeDatas) {
         this.season = numberSeason;
@@ -28,46 +47,6 @@ public class Episodes {
         } catch (DateTimeParseException ex) {
             this.release = null;
         }
-    }
-
-    public Integer getSeason() {
-        return season;
-    }
-
-    public void setSeason(Integer season) {
-        this.season = season;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getNumberEpisode() {
-        return numberEpisode;
-    }
-
-    public void setNumberEpisode(Integer numberEpisode) {
-        this.numberEpisode = numberEpisode;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public LocalDate getRelease() {
-        return release;
-    }
-
-    public void setRelease(LocalDate release) {
-        this.release = release;
     }
 
     @Override

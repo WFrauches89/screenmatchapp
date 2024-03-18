@@ -2,11 +2,11 @@ package br.com.alura.screenmatch.model;
 
 import br.com.alura.screenmatch.model.enums.Category;
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +41,7 @@ public class Series {
     @Column
     private final String plot;
 
-
-
-    @Transient
+    @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodes> episodes = new ArrayList<>();
 
     public Series(SeriesDatas seriesDatas) {
@@ -57,6 +55,16 @@ public class Series {
 //        this.plot = ConsultaChatGPT.obterTraducao(seriesDatas.plot()).trim();
     }
 
+    public void setEpisodes(List<Episodes> episodes) {
+        episodes.forEach(s -> s.setSeries(this));
+        this.episodes = episodes;
+    }
+
+    @Contract(pure = true)
+    public String getTitle() {
+        return title;
+    }
+
     @Override
     public String toString() {
         return
@@ -67,5 +75,6 @@ public class Series {
                 ", actors='" + actors + '\'' +
                 ", poster='" + poster + '\'' +
                 ", plot='" + plot + '\'';
+//                ", episodes='" + episodes + '\'';
     }
 }
