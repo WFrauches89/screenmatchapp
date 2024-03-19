@@ -1,7 +1,9 @@
 package br.com.alura.screenmatch.controllers;
 
+import br.com.alura.screenmatch.dto.EpisodeDTO;
 import br.com.alura.screenmatch.dto.SeriesDTO;
 import br.com.alura.screenmatch.model.Episodes;
+import br.com.alura.screenmatch.model.enums.Category;
 import br.com.alura.screenmatch.services.SeriesService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +33,7 @@ public class SerieController {
 
     @GetMapping("/lancamentos")
     public List<SeriesDTO> getLancamento() {
-        return seriesService.getListLancamento();
+        return seriesService.getListLancamento() ;
     }
 
     @GetMapping("/{id}")
@@ -40,5 +42,18 @@ public class SerieController {
     }
 
     @GetMapping("/{id}/temporadas/todas")
-    public List<EpisodesDTO>
+    public List<EpisodeDTO> getAllSeasons (@PathVariable Long id) {
+        return seriesService.getAllSeasonsService(id);
+    }
+
+    @GetMapping("/{id}/temporadas/{season}")
+    public List<EpisodeDTO> getEpisodesFromS (@PathVariable Long id, @PathVariable Integer season){
+        return seriesService.getEpisodesFromSeasonServ(id, season);
+    }
+
+    @GetMapping("/categoria/{categoryName}")
+    public List<SeriesDTO> getSeriesFromCategory(@PathVariable String categoryName){
+        return seriesService.getSeriesCategory(categoryName);
+    }
+
 }

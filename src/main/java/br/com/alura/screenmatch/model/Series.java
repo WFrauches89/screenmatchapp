@@ -74,7 +74,7 @@ public class Series {
                 ", rating=" + rating +
                 ", actors='" + actors + '\'' +
                 ", poster='" + poster + '\'' +
-                ", plot='" + plot + '\'';
-//                ", episodes='" + episodes + '\'';
+                ", plot='" + plot + '\''+
+                ", episodes='" + episodes + '\'';
     }
 }
